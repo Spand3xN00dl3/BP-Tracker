@@ -3,7 +3,7 @@ import getDB from "@/lib/mongo";
 
 const coll = (await getDB()).collection("readings");
 
-export async function GET(req: NextRequest, { params }: { params: { user: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ user: string }> }) {
   const { user: email } = await params;
 
   if(!email) {

@@ -3,7 +3,7 @@ import getDB from "@/lib/mongo";
 
 const coll = (await getDB()).collection("readings");
 
-export async function GET(req: NextRequest, { params }: { params: { user: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ user: string }> }) {
   const { user: email } = await params;
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date");
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: { user: string
   }
 }
 
-export async function POST(req: NextRequest, { params }: { params: { user: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ user: string }> }) {
   const { user: email } = await params;
   const { systolic, diastolic, heartRate, date } = await req.json();
 
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest, { params }: { params: { user: strin
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { user: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ user: string }> }) {
   const { user: email } = await params;
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date");
