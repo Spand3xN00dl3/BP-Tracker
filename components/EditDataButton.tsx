@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
 

@@ -4,32 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function Metrics() {
-  const [data, setData] = useState([
-    {
-      title: "Highest Systolic Pressure (mmHg)",
-      value: 120
-    },
-    {
-      title: "Avg Diastolic Pressure (mmHg)",
-      value: 80
-    },
-    {
-      title: "Avg Blood Pressure (bpm)",
-      value: 60
-    },
-    {
-      title: "Highest Diastolic Pressure (mmHg)",
-      value: 90
-    },
-    {
-      title: "Highest Diastolic Pressure (mmHg)",
-      value: 90
-    },
-    {
-      title: "Highest Diastolic Pressure (mmHg)",
-      value: 90
-    }
-  ]);
+  const [data, setData] = useState<MetricType[] | null>(null);
 
   const { data: session } = useSession();
   
@@ -41,14 +16,30 @@ export default function Metrics() {
         const resData = await res.json();
         setData(resData.data);
       } else {
-        const errorData = await res.json();
+        // const errorData = await res.json();
       }
     };
 
     if(session?.user?.email) {
       fetchData(session.user.email);
     }
-  }, [session?.user?.email]);
+  }, [session]);
+
+  if(!data) {
+    return (
+      <div className="w-58 h-full rounded-md border border-color1 flex items-center justify-center">
+        <p className="font-mono text-subtext">Loading...</p>
+      </div>
+    );
+  }
+
+  if(data.length == 0) {
+    return (
+      <div className="w-58 h-full rounded-md border border-color1 flex items-center justify-center">
+        <p className="font-mono">Upload Data to get metrics</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-58 h-full flex flex-col gap-3 overflow-y-auto snap-y">
@@ -67,3 +58,8 @@ function MetricDataCard({ title, value }: { title: string, value: string | numbe
     </div>
   );
 }
+
+type MetricType = {
+  title: string,
+  value: string | number
+};

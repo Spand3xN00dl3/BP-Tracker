@@ -51,9 +51,9 @@ function Popup({ handleClose }: { handleClose: () => void }) {
     });
 
     if(res.ok) {
-      const data = await res.json();
+      // const data = await res.json();
     } else {
-      const data = await res.json();
+      // const data = await res.json();
     }
 
     setLoading(false);
